@@ -6,10 +6,11 @@
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/02 17:15:33 by mrantil          ###   ########.fr       */
+/*   Updated: 2021/12/03 17:55:47 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -19,13 +20,27 @@
 
 int get_next_line(const int fd, char **line)
 {
-	char	c;
-	char	*temp;
-	
-	temp = (char *)malloc(sizeof(char) * 1000);
-	*line = temp;
+	char		c;
+	static char	temp[5];
+	int			i;
+	static int	x;
+
+	i = 0;
+//	temp = (char *)malloc(sizeof(char) * 1000);
+//	*line = temp;
 	while (read(fd, &c, BUF_SIZE))
-		*temp++ = c;
+	{
+		if (c != '\n' && c != '\0')
+			temp[i++] = c;
+		else 
+		{
+			*line = temp;
+			return (1);
+		}
+	}
+	//x = i;
+	//if (c == '\0')
+	//	return (0);
 	return (0);
 }
 
@@ -36,9 +51,13 @@ int	main(int argc, char **argv)
 
 	fd = open(argv[1], O_RDONLY);
 	
-	get_next_line(fd, &line);
-//	while (*line != '\0')
+	if (get_next_line(fd, &line))
 		printf("%s\n", line);
+	if (get_next_line(fd, &line))
+		printf("%s\n", line);
+	ft_putchar('\n');
+//	while (get_next_line(fd, &line))
+//		printf("%s\n", line);
 	return (0);
 }
 
