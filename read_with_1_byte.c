@@ -6,7 +6,7 @@
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/06 13:59:09 by mrantil          ###   ########.fr       */
+/*   Updated: 2021/12/06 10:59:28 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,31 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define BUFF_SIZE 8
+#define BUF_SIZE 1
 
 int get_next_line(const int fd, char **line)
 {
-	char		read_buf[BUFF_SIZE];
-	static char	*stat_buf[4096];
+	char		c;
+	static char	temp[5];
+	int			i;
+	static int	x;
 
-	//stat_buf = *ft_strnew(BUFF_SIZE);
-	while (read(fd, &read_buf, BUFF_SIZE))
+	i = 0;
+//	temp = (char *)malloc(sizeof(char) * 1000);
+//	*line = temp;
+	while (read(fd, &c, BUF_SIZE))
 	{
-		if (ft_strchr(read_buf, '\n') == NULL)
-			stat_buf[0] = ft_strdup(read_buf);
-		else if (ft_strchr(read_buf, '\n') != NULL)
-			stat_buf[0] = ft_strdup(ft_strchr(read_buf, '\n') + 1);
+		if (c != '\n' && c != '\0')
+			temp[i++] = c;
 		else 
 		{
-			*line = stat_buf[0];
+			*line = temp;
 			return (1);
 		}
 	}
+	//x = i;
+	//if (c == '\0')
+	//	return (0);
 	return (0);
 }
 
@@ -48,8 +53,11 @@ int	main(int argc, char **argv)
 	
 //	if (get_next_line(fd, &line))
 //		printf("%s\n", line);
+//	if (get_next_line(fd, &line))
+//		printf("%s\n", line);
+//	ft_putchar('\n');
 	while (get_next_line(fd, &line))
-		printf("%s", line);
+		printf("%s\n", line);
 	return (0);
 }
 
