@@ -6,7 +6,7 @@
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/06 17:37:57 by mrantil          ###   ########.fr       */
+/*   Updated: 2021/12/07 15:29:31 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define BUFF_SIZE 8
+#define BUFF_SIZE 1111
 
 int	ft_strlennl(char *str)
 {
@@ -25,34 +25,46 @@ int	ft_strlennl(char *str)
 	i = 0;
 	while (str[i] != '\n')
 		i++;
-	return (i);
+	return (i + 1);
 }
 
 int get_next_line(const int fd, char **line)
 {
-	char		read_buf[BUFF_SIZE];
-	char		*temp;
-	static char	stat_buf;
+	char			read_buf[BUFF_SIZE + 1];
+	char			*temp;
+	static char		*stat_buf;
+	static size_t	check;
 
-	//stat_buf = *ft_strnew(BUFF_SIZE);
-	if (ft_strchr(stat_buf, '\n') != NULL)  //continue fromm here
+	if (!stat_buf)
+		stat_buf = ft_strnew(BUFF_SIZE);
+	if (ft_strchr(stat_buf, '\n') != NULL)  //check if \n is in stat_buf
+	{
+		*line = ft_strsub(stat_buf, 0, ft_strlennl(stat_buf)); //cpy str before \n into  *line
+		if (ft_strlennl(ft_strchr(stat_buf, '\n'))) //check if there is a string in stat_buf after \n
 		{
-			*line = &stat_buf;
-			free(&stat_buf);
+			temp = ft_strdup(ft_strchr(stat_buf, '\n' + 1));  // put leftover str into temp
 		}
-	while (read(fd, &read_buf, BUFF_SIZE))
+		free(stat_buf);
+	}
+	while (read(fd, read_buf, BUFF_SIZE))
 	{
 		if (ft_strchr(read_buf, '\n') == NULL) //check if buffer has newline - buffer no newline
-			stat_buf = ft_strdup(read_buf);		//cpy buffer to static 	
+		{
+			check++;
+			if (check > 1)
+				stat_buf = ft_strjoin(stat_buf, ft_strdup(read_buf));
+			else
+				stat_buf = ft_strdup(read_buf);		//cpy buffer to static 	
+		}
 		else if (ft_strchr(read_buf, '\n') != NULL) //check if buffer has newline - buffer has newline 
 		{
-			stat_buf = ft_strjoin(stat_buf, ft_strsub(read_buf, 0, ft_strlennl(read_buf))); //(static+buffer before \n)
+			stat_buf = ft_strjoin(stat_buf, ft_strsub(read_buf, 0, ft_strlennl(read_buf))); //(static+buffer before \n) (VARNING! look if work)
 			temp = ft_strdup(ft_strchr(read_buf, '\n') + 1);	//leftover from static into temp
-			*line = stat_buf;
-			free(stat_buf);
+			*line = ft_strdup(stat_buf);
+			ft_strdel(&stat_buf);
 			stat_buf = ft_strdup(temp);
-			free (temp);
-			temp = NULL;
+			ft_strdel(&temp);
+			check = 0;
 			return (1);
 		}
 	}
@@ -66,12 +78,12 @@ int	main(int argc, char **argv)
 
 	fd = open(argv[1], O_RDONLY);
 	
+/*	if (get_next_line(fd, &line))
+		printf("%s", line);
 	if (get_next_line(fd, &line))
-		printf("%s\n", line);
-	if (get_next_line(fd, &line))
-		printf("%s\n", line);
-//	while (get_next_line(fd, &line))
-//		printf("%s", line);
+		printf("%s", line);
+*/	while (get_next_line(fd, &line))
+		printf("%s", line);
 	return (0);
 }
 
