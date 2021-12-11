@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcdup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/11 16:25:43 by mrantil          ###   ########.fr       */
+/*   Updated: 2021/12/10 16:13:45 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
+char	*ft_strcdup(const char *s1, int c, int n)
+{
+	char	*cpy;
+	int		i;
 
-# define FD_MAX 8192
-# define BUFF_SIZE 10000
-
-int	get_next_line(const int fd, char **line);
-
-#endif
+	i = 0;
+	while (s1[i] && s1[i] != c)
+	{
+		i++;
+		if (s1[i] == c)
+		{
+			if (n == 0)
+				cpy = ft_strsub(s1, 0, i);
+			else
+				cpy = ft_strsub(s1, 0, i + 1);
+			return (cpy);
+		}
+	}
+	return (NULL);
+}

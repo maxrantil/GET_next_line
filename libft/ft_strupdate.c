@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strupdate.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/11 16:25:43 by mrantil          ###   ########.fr       */
+/*   Created: 2021/12/11 20:24:14 by mrantil           #+#    #+#             */
+/*   Updated: 2021/12/11 20:36:34 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
+char	*ft_strupdate(char *s1, const char *s2)
+{
+	char	*ret;
 
-# define FD_MAX 8192
-# define BUFF_SIZE 10000
-
-int	get_next_line(const int fd, char **line);
-
-#endif
+	ret = ft_strjoin(s1, s2);
+	if (!ret)
+		return (NULL);
+	ft_strdel(&s1);
+	return (ret);
+}

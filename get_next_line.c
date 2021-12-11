@@ -6,80 +6,77 @@
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/10 20:10:44 by mrantil          ###   ########.fr       */
+/*   Updated: 2021/12/11 20:37:04 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	ft_strclen(char *str, int c)
+static int	manage_str(int fd, char **stat_buf, char **line)
 {
-	int	i;
+	char	*temp;
 
-	i = 0;
-	while (str[i] && str[i] != c)
-	{
-		i++;
-		if (str[i] == c)
-			return (i);
-	}
-	return (0);
+	*line = ft_strsub(stat_buf[fd], 0, ft_strclen(stat_buf[fd], '\n'));
+	if (ft_strchr(stat_buf[fd], '\n'))
+		temp = ft_strdup(ft_strchr(stat_buf[fd], '\n') + 1);
+	ft_strdel(&stat_buf[fd]);
+	stat_buf[fd] = ft_strdup(temp);
+	ft_strdel(&temp);
+	return (1);
 }
 
-static char	*ft_strfjoin(char *s1, const char *s2)
+static int	work_it(int fd, char **stat_buf, char *read_buf, char **line)
 {
-	char	*ret;
+	char	*temp;
 
-	ret = ft_strjoin(s1, s2);
-	if (!ret)
-		return (NULL);
-	ft_strdel(&s1);
-	return (ret);
+	temp = ft_strsub(read_buf, 0, ft_strclen(read_buf, '\n'));
+	stat_buf[fd] = ft_strupdate(stat_buf[fd], temp);
+	ft_strdel(&temp);
+	temp = ft_strdup(ft_strchr(read_buf, '\n') + 1);
+	*line = ft_strdup(stat_buf[fd]);
+	ft_strdel(&stat_buf[fd]);
+	stat_buf[fd] = ft_strdup(temp);
+	ft_strdel(&temp);
+	return (2);
+}
+
+static int	read_file(int fd, char **stat_buf, char *read_buf, char **line)
+{
+	int				ret;
+
+	ret = read(fd, read_buf, BUFF_SIZE);
+	if (ret == -1)
+		return (-1);
+	read_buf[ret] = '\0';
+	if (ft_strchr(read_buf, '\n') == NULL)
+		stat_buf[fd] = ft_strupdate(stat_buf[fd], read_buf);
+	else 
+		return (work_it(fd, stat_buf, read_buf, line));
+	if (ret == 0)
+		return (0);
+	return (1);
 }
 
 int	get_next_line(const int fd, char **line)
 {
 	char			read_buf[BUFF_SIZE + 1];
-	char			*temp;
 	static char		*stat_buf[FD_MAX];
 	int				ret;
 
 	ret = 1;
-	if (!line || fd < 0 || fd > FD_MAX || BUFF_SIZE <= 0) //fd == 1 || fd == 2 - return (?)
+	if (!line || fd < 0 || fd > FD_MAX || BUFF_SIZE <= 0)
 		return (-1);
 	if (!stat_buf[fd])
 		stat_buf[fd] = ft_strnew(BUFF_SIZE);
-	if (ft_strchr(stat_buf[fd], '\n') != NULL) //check if \n is in stat_buf[fd]
-	{
-		*line =	ft_strsub(stat_buf[fd], 0, ft_strclen(stat_buf[fd], '\n')); //cpy str before \n into  *line
-		if (ft_strchr(stat_buf[fd], '\n')) //check if there is a string in stat_buf[fd] after \n
-			temp = ft_strdup(ft_strchr(stat_buf[fd], '\n') + 1); // put leftover str into temp
-		ft_strdel(&stat_buf[fd]);
-		stat_buf[fd] = ft_strdup(temp);
-		ft_strdel(&temp);
-		ft_bzero(read_buf, BUFF_SIZE + 1);
-		return (1);
-	}
+	if (ft_strchr(stat_buf[fd], '\n') != NULL)
+		return (manage_str(fd, stat_buf, line));
 	while (ret)
 	{
-		ret = read(fd, read_buf, BUFF_SIZE);
+		ret = read_file(fd, stat_buf, read_buf, line);
 		if (ret == -1)
 			return (-1);
-		read_buf[ret] = '\0';
-		if (ft_strchr(read_buf, '\n') == NULL) //check if buffer has newline - buffer no newline
-			stat_buf[fd] = ft_strfjoin(stat_buf[fd], read_buf);
-		else // buffer has newline 
-		{
-			temp = ft_strsub(read_buf, 0, ft_strclen(read_buf, '\n'));
-			stat_buf[fd] = ft_strfjoin(stat_buf[fd], temp);
-			ft_strdel(&temp);
-			temp = ft_strdup(ft_strchr(read_buf, '\n') + 1); //leftover from static into temp
-			*line = ft_strdup(stat_buf[fd]);
-			ft_strdel(&stat_buf[fd]);
-			stat_buf[fd] = ft_strdup(temp);
-			ft_strdel(&temp);
+		if (ret == 2)
 			return (1);
-		}
 	}
 	*line = ft_strdup(stat_buf[fd]);
 	ft_strdel(&stat_buf[fd]);

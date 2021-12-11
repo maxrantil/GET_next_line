@@ -6,21 +6,33 @@
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/11 16:25:43 by mrantil          ###   ########.fr       */
+/*   Updated: 2021/12/11 16:13:27 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "get_next_line.h"
+#include "libft/libft.h"
+#include <fcntl.h>
+#include <stdio.h>
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
+int	main(int argc, char **argv)
+{
+	int		fd;
+	char	*line;
+	int		i;
 
-# define FD_MAX 8192
-# define BUFF_SIZE 10000
+	(void)argc;
+	fd = open(argv[1], O_RDONLY);
+//	if (get_next_line(fd, &line))
+//		printf("%s\n", line);
+//	if (get_next_line(fd, &line))
+//		printf("%s\n", line);
+//	ft_putchar('\n');
+	while ((i = get_next_line(fd, &line)) != 0)
+		printf("ret:%d		%s\n", i, line);
+	printf("ret:%d		%s\n", i, line);
+//	ft_strdel(&line);
+//	system("leaks test_gnl");
+	return (0);
+}
 
-int	get_next_line(const int fd, char **line);
-
-#endif

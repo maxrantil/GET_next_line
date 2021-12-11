@@ -6,7 +6,7 @@
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:44:24 by mrantil           #+#    #+#             */
-/*   Updated: 2021/11/25 14:57:35 by mrantil          ###   ########.fr       */
+/*   Updated: 2021/12/11 20:23:20 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,8 @@ void	ft_lstputnbr(t_list **alst);
 void	ft_lstaddend(t_list **alst, t_list *new);
 void	ft_lstputstr(t_list **alst);
 int		ft_isspace(const char *str);
+char	*ft_strcdup(const char *s1, int c, int n);
+int		ft_strclen(char *str, int c);
+char	*ft_strupdate(char *s1, const char *s2);
 
 #endif

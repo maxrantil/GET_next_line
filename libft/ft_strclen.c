@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strclen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/11 16:25:43 by mrantil          ###   ########.fr       */
+/*   Created: 2021/12/11 20:19:35 by mrantil           #+#    #+#             */
+/*   Updated: 2021/12/11 20:24:00 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+int	ft_strclen(char *str, int c)
+{
+	int	i;
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-
-# define FD_MAX 8192
-# define BUFF_SIZE 10000
-
-int	get_next_line(const int fd, char **line);
-
-#endif
+	i = 0;
+	while (str[i] && str[i] != c)
+	{
+		i++;
+		if (str[i] == c)
+			return (i);
+	}
+	return (0);
+}
