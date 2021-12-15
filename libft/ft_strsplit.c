@@ -6,13 +6,13 @@
 /*   By: mrantil <mrantil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 16:35:23 by mrantil           #+#    #+#             */
-/*   Updated: 2021/11/30 16:47:14 by mrantil          ###   ########.fr       */
+/*   Updated: 2021/12/13 16:52:46 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	*ft_freemal(char **ret, int index)
+static void	*ft_freemal(char **ret, int	index)
 {
 	while (index--)
 	{
@@ -46,35 +46,30 @@ static int	word_count(char const *s, char c)
 
 static char	**make_ret(char const *s, char c, char **ret)
 {
-	size_t	i;
-	size_t	index;
-	size_t	e;
+	t_strsplit	a;
 
-	i = 0;
-	index = 0;
-	e = 0;
-	while (s[i])
+	a.i = 0;
+	a.index = 0;
+	while (s[a.i])
 	{
-		while (s[i] == c)
-		{
-			i++;
-			e++;
-		}
-		if (s[i] == '\0')
+		while (s[a.i] == c)
+			a.i++;
+		a.e = a.i;
+		if (s[a.i] == '\0')
 			break ;
-		while (s[e] != c)
+		while (s[a.e] != c)
 		{
-			e++;
-			if (!s[e])
+			a.e++;
+			if (!s[a.e])
 				break ;
 		}
-		ret[index] = ft_strsub(s, i, e - i);
-		if (!ret[index])
-			return (ft_freemal(ret, index));
-		index++;
-		i = e;
+		ret[a.index] = ft_strsub(s, a.i, a.e - a.i);
+		if (!ret[a.index])
+			return (ft_freemal(ret, a.index));
+		a.index++;
+		a.i = a.e;
 	}
-	ret[index] = 0;
+	ret[a.index] = 0;
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/11 20:37:04 by mrantil          ###   ########.fr       */
+/*   Updated: 2021/12/13 16:08:06 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	read_file(int fd, char **stat_buf, char *read_buf, char **line)
 	read_buf[ret] = '\0';
 	if (ft_strchr(read_buf, '\n') == NULL)
 		stat_buf[fd] = ft_strupdate(stat_buf[fd], read_buf);
-	else 
+	else
 		return (work_it(fd, stat_buf, read_buf, line));
 	if (ret == 0)
 		return (0);

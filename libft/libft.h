@@ -6,7 +6,7 @@
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:44:24 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/11 20:23:20 by mrantil          ###   ########.fr       */
+/*   Updated: 2021/12/13 16:24:52 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ typedef struct s_list
 
 	struct s_list	*next;
 }					t_list;
+
+typedef struct s_strsplit
+{
+	size_t			i;
+	size_t			index;
+	size_t			e;
+}					t_strsplit;
 
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);
