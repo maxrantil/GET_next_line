@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_stout2lines copy.c                            :+:      :+:    :+:   */
+/*   main_stout1lines.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrantil <mrantil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/16 14:26:28 by mrantil          ###   ########.fr       */
+/*   Updated: 2022/01/24 14:27:51 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-int	main()//int argc, char **argv)
+int	main()
 {
 	int		fd = 1;
 	char	*line = NULL;
@@ -26,5 +26,3 @@ int	main()//int argc, char **argv)
 //	system("leaks test_gnl");
 	return (0);
 }
-
-
