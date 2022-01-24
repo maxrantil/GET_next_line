@@ -6,13 +6,13 @@
 /*   By: mrantil <mrantil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 16:35:23 by mrantil           #+#    #+#             */
-/*   Updated: 2021/12/13 16:52:46 by mrantil          ###   ########.fr       */
+/*   Updated: 2022/01/18 16:39:32 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	*ft_freemal(char **ret, int	index)
+static void	*ft_freemal(char **ret, int index)
 {
 	while (index--)
 	{

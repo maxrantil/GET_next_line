@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstputnbr.c                                     :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrantil <mrantil@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/23 13:39:48 by mrantil           #+#    #+#             */
-/*   Updated: 2021/11/23 17:20:56 by mrantil          ###   ########.fr       */
+/*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
+/*   Updated: 2021/12/15 09:52:15 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-void	ft_lstputnbr(t_list **alst)
-{
-	t_list	*ptr;
+# include "libft/libft.h"
 
-	if (*alst == NULL)
-		return ;
-	ptr = *alst;
-	write(1, "head:\n", 6);
-	while (ptr != NULL)
-	{
-		ft_putnbr((int)ptr->content);
-		write(1, "\n", 1);
-		ptr = ptr->next;
-	}
-}
+# define FD_MAX 8192
+# define BUFF_SIZE 10000
+
+int	get_next_line(const int fd, char **line);
+
+#endif

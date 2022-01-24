@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   main_stout2lines.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrantil <mrantil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/02 17:10:40 by mrantil           #+#    #+#             */
-/*   Updated: 2022/01/20 15:35:37 by mrantil          ###   ########.fr       */
+/*   Created: 2021/12/02 15:00:51 by mrantil           #+#    #+#             */
+/*   Updated: 2021/12/17 12:46:04 by mrantil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "get_next_line.h"
+#include "libft/libft.h"
+#include <fcntl.h>
+#include <stdio.h>
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+int	main()//int argc, char **argv)
 {
-	if (src < dst)
-	{
-		while (len--)
-			((unsigned char *)dst)[len] = ((unsigned char *)src)[len];
-	}
-	else
-		return (ft_memcpy(dst, src, len));
-	return (dst);
+	int		fd = 1;
+	char	*line = NULL;
+	int		i;
+
+	i = get_next_line(fd, &line);
+	printf("ret:%d	fd:%d		%s\n", i, fd, line);
+	i = get_next_line(fd, &line);
+	printf("ret:%d	fd:%d		%s\n", i, fd, line);
+//	ft_strdel(&line);
+//	system("leaks test_gnl");
+	return (0);
 }
+
+
