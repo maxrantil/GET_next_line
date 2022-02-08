@@ -18,8 +18,8 @@ $(NAME):
 	@echo ""
 	@make -C libft/ fclean && make -C libft/
 	@clang -Wall -Wextra -Werror -I libft/includes -o get_next_line.o -c get_next_line.c
-	@clang -Wall -Wextra -Werror -I libft/includes -o main_argv.o -c main_argv.c
-	@clang -o test_gnl main_argv.o get_next_line.o -I libft/includes -L libft/ -lft
+	@clang -Wall -Wextra -Werror -I libft/includes -o main_stout1lines.o -c main_stout1lines.c
+	@clang -o test_gnl main_stout1lines.o get_next_line.o -I libft/includes -L libft/ -lft
 	@echo "$(NAME) created"
 
 clean:
